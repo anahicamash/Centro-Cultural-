@@ -1,0 +1,27 @@
+.button-fill{
+	background: #01D7EB;
+}
+.principal{
+	width: 30em;
+	position: relative;
+	margin-left: 38em;
+	margin-top: 3em;
+}
+.menu-item-content{
+	background:  #01D7EB;
+}
+.menu-dropdown-content{
+	background:  #01D7EB;
+}
+.menu-dropdown-left{
+	background:  #01D7EB;
+}
+.panel {
+  min-width: 100px;
+  max-width: 90vw;
+}
+.page{
+	background-color: white;
+	background-image:url("/img/2.jpg");
+	
+}

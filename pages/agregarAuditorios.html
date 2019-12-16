@@ -1,0 +1,239 @@
+<template>
+    <div class="page">
+      <div class="navbar">
+        <div class="navbar-bg"></div>
+        <div class="navbar-inner sliding">
+          <div class="left">
+            <a href="#" class="link back">
+              <i class="icon icon-back"></i>
+            </a>
+          </div>
+          <div class="title" >Nuevo evento</div>
+    
+        </div>
+      </div>
+      <div class="page-content">
+        <div class="block block-title-medium">Datos del Evento</div>
+          <form class="list no-hairlines-md" id="agregarVentas">
+            <ul>
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">bold_italic_underline</i>
+                </div>                
+                <div class="item-inner">
+                  <div class="item-title item-label">Nombre</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Nombre del  Evento" name="nombre">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
+
+
+
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">flag_circle</i>
+                </div>
+                
+
+                <div class="item-inner">
+                  <div class="item-title item-label">Tipo de evento</div>
+                  <div class="item-input-wrap input-dropdown-wrap">
+                    <select name="tipo_evento">
+                       {{#each tipo_evento}}
+                      <option value={{id}}>{{id}}</option>
+                      {{/each}}
+              
+                    </select>
+                  </div>
+                </div>
+              </li> 
+
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">calendar</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Fecha</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Seleccionar fecha" readonly="readonly" id="demo-calendar-date-format" name="fecha"/>
+                    <span class="input-clear-button"></span>
+
+                  </div>
+                </div>
+              </li>             
+
+                
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">person_3</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Organizador</div>
+                  <div class="item-input-wrap input-dropdown-wrap">
+                    <select name="organizador">
+                       {{#each organizador}}
+                      <option value={{id}}>{{nombre}}</option>
+                      {{/each}}
+              
+                    </select>
+                  </div>
+                </div>
+              </li>
+
+
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">location</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Auditorio</div>
+                  <div class="item-input-wrap input-dropdown-wrap">
+                    <select name="auditorio">
+                       {{#each auditorio}}
+                      <option value={{id}}>{{nombre}}</option>
+                      {{/each}}
+              
+                    </select>
+                  </div>
+                </div>
+              </li>
+
+
+              
+               <li class="item-content item-input">
+                <div class="item-media">
+                  <i class="icon f7-icons">chevron_down_circle</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Descripción</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Descripcion de Evento" name="descripcion">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </form>    
+          <a href="#" class="button" @click="guardar">Agregar evento</a>
+      </div>
+    </div>
+    </template>
+    
+    <script>
+      return {
+        data: function () {
+          return {
+           tipo_evento:[],
+           organizador:[],
+           auditorio:[],
+                    
+    
+          }
+        },
+        methods:{
+              guardar:function(){
+
+                    var datos = app.form.convertToData('#agregarVentas');
+                    var formData = {
+                     nombre:'',
+                     tipo_evento:'', 
+                     fecha: '',
+                     organizador:'',
+                     auditorio:'',
+                     descripcion:''
+                   }
+                   db1.collection("eventos").add({
+                        nombre: datos.nombre,
+                        tipo_evento: datos.tipo_evento,
+                        fecha:datos.fecha,
+                        organizador:datos.organizador,
+                        auditorio:datos.auditorio,
+                        descripcion:datos.descripcion
+                    })
+                    .then(function(docRef) {
+                        console.log("Document written with ID: ", docRef.id);
+                        app.dialog.alert("","Guardado con exito");
+                    })
+                    .catch(function(error) {
+                        console.error("Error: ", error);
+                    });
+
+                    }
+
+              },
+        on: {
+          pageInit: function () {
+
+            var calendarDateFormat = app.calendar.create({
+                    inputEl: '#demo-calendar-date-format',
+                    dateFormat: { weekday: 'long', month: 'long', day: '2-digit', year: 'numeric' },
+                  });
+            var self = this;
+                let _tipo_evento = [];
+                let _organizador=[];
+                let _auditorio=[];
+                
+                db1
+                    .collection("tipo_evento")
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            _tipo_evento.push({
+                              id:doc.id
+                             })
+                            self.$setState({
+                              tipo_evento:_tipo_evento
+                           })
+                        });
+                    });
+                
+              db1.collection("organizador")
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            _organizador.push({
+                              nombre:doc.data().nombre
+                             })
+                            self.$setState({
+                              organizador:_organizador
+                           })
+                        });
+                    });
+    
+              db1.collection("auditorio")
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            _auditorio.push({
+                              nombre:doc.data().nombre
+                             })
+
+                            self.$setState({
+                              auditorio:_auditorio
+                           })
+                        });
+                    });
+
+              
+      
+
+    
+    
+    
+          },
+        },
+      };
+    </script>
+    

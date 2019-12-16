@@ -1,0 +1,130 @@
+<template>
+    <div class="page">
+        <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner sliding">
+                <div class="left">
+                  <a href="/inicio/" class="link back">
+                    <i class="icon icon-back"></i>
+                  </a>
+
+                  
+                </div>
+                <div class="title">Eventos</div>
+                <div class="right">
+                  <a href="/agregarEventos/" class="link"><i class="icon f7-icons">plus</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+          
+            <div class="card data-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="label-cell">Nombre</th>
+                    <th class="numeric-cell">Tipo de evento </th>
+                    <th class="numeric-cell">Fecha</th>
+                    <th class="numeric-cell">Organizador</th>
+                    <th class="numeric-cell">Auditorio</th>
+                    <th class="numeric-cell">Descripción </th>
+
+                    <th></th>
+                    <th></th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each eventos}}
+                  
+                  <tr id="{{id}}">
+                    
+                    <td class="label-cell">{{nombre}}</td>
+                    <td class="numeric-cell">{{tipo_evento}}</td>
+                    <td class="numeric-cell">{{fecha}}</td>
+                    <td class="numeric-cell">{{organizador}}</td>
+                    <td class="numeric-cell">{{auditorio}}</td>
+                    <td class="numeric-cell">{{descripcion}}</td>
+                    <td class="numeric-cell"><a href="#" ><i class="icon f7-icons">pencil</i></a></td>
+                    <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-red">trash_circle</i></a></td>
+                  </tr>
+                  
+                
+                  {{/each}}
+                  
+                </tbody>
+              </table>
+              
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        data: function () {
+            return {
+             eventos:[], 
+           }
+        },
+        methods: {
+          eliminar:function(id){
+
+          app.dialog.create({
+    title: 'Eliminar',
+    text: '¿Desea Eliminar el registro?',
+    buttons: [
+      {
+        text: 'si',
+        onClick:function(){
+            //aqui la consulta de eliminar
+            app.dialog.preloader('Eliminando evento');
+            db1.collection("eventos").doc(id).delete().then(function() {
+                  console.log("Evento eliminado");
+                  app.dialog.close();
+
+                  $$("#"+id+"").remove();
+              }).catch(function(error) {
+                  console.error("Error removing document: ", error);
+              });
+        }
+      },
+      {
+        text: 'no',
+      },
+    ],
+  }).open(); 
+            
+        }
+        },
+        on: {
+            pageInit: function () {
+                var self = this;
+                let _eventos = [];
+                db1
+                    .collection("eventos")
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                              _eventos.push({
+                                id:doc.id,
+                              nombre:doc.data().nombre,
+                              tipo_evento:doc.data().tipo_evento,
+                              fecha:doc.data().fecha,
+                              organizador:doc.data().organizador,
+                              auditorio:doc.data().auditorio,
+                              horario:doc.data().horario,
+                              descripcion:doc.data().descripcion
+
+                            })
+                            self.$setState({
+                              eventos:_eventos
+                            })
+                        });
+                    });
+
+            }
+        }
+    };
+</script>
