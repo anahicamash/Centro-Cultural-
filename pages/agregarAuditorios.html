@@ -4,26 +4,26 @@
         <div class="navbar-bg"></div>
         <div class="navbar-inner sliding">
           <div class="left">
-            <a href="#" class="link back">
+            <a href="/auditorios/" class="link back">
               <i class="icon icon-back"></i>
             </a>
           </div>
-          <div class="title" >Nuevo evento</div>
+          <div class="title" >Nuevo auditorio</div>
     
         </div>
       </div>
       <div class="page-content">
         <div class="block block-title-medium">Datos del Evento</div>
-          <form class="list no-hairlines-md" id="agregarVentas">
+          <form class="list no-hairlines-md" id="agregarAuditorios">
             <ul>
               <li class="item-content item-input">
                 <div class="item-media">
-                   <i class="icon f7-icons">bold_italic_underline</i>
+                   <i class="icon f7-icons">bold_italic_underline</i> <!--Nombre de Ic-->
                 </div>                
                 <div class="item-inner">
                   <div class="item-title item-label">Nombre</div>
                   <div class="item-input-wrap">
-                    <input type="text" placeholder="Nombre del  Evento" name="nombre">
+                    <input type="text" placeholder="Nombre del  Auditorio" name="nombre">
                     <span class="input-clear-button"></span>
                   </div>
                 </div>
@@ -32,95 +32,36 @@
 
 
 
-              <li class="item-content item-input">
-                <div class="item-media">
-                   <i class="icon f7-icons">flag_circle</i>
-                </div>
-                
-
-                <div class="item-inner">
-                  <div class="item-title item-label">Tipo de evento</div>
-                  <div class="item-input-wrap input-dropdown-wrap">
-                    <select name="tipo_evento">
-                       {{#each tipo_evento}}
-                      <option value={{id}}>{{id}}</option>
-                      {{/each}}
-              
-                    </select>
-                  </div>
-                </div>
-              </li> 
-
-
-              <li class="item-content item-input">
-                <div class="item-media">
-                   <i class="icon f7-icons">calendar</i>
-                </div>
-                <div class="item-inner">
-                  <div class="item-title item-label">Fecha</div>
-                  <div class="item-input-wrap">
-                    <input type="text" placeholder="Seleccionar fecha" readonly="readonly" id="demo-calendar-date-format" name="fecha"/>
-                    <span class="input-clear-button"></span>
-
-                  </div>
-                </div>
-              </li>             
-
-                
-
-              <li class="item-content item-input">
-                <div class="item-media">
-                   <i class="icon f7-icons">person_3</i>
-                </div>
-                <div class="item-inner">
-                  <div class="item-title item-label">Organizador</div>
-                  <div class="item-input-wrap input-dropdown-wrap">
-                    <select name="organizador">
-                       {{#each organizador}}
-                      <option value={{id}}>{{nombre}}</option>
-                      {{/each}}
-              
-                    </select>
-                  </div>
-                </div>
-              </li>
-
-
-
-              <li class="item-content item-input">
-                <div class="item-media">
-                   <i class="icon f7-icons">location</i>
-                </div>
-                <div class="item-inner">
-                  <div class="item-title item-label">Auditorio</div>
-                  <div class="item-input-wrap input-dropdown-wrap">
-                    <select name="auditorio">
-                       {{#each auditorio}}
-                      <option value={{id}}>{{nombre}}</option>
-                      {{/each}}
-              
-                    </select>
-                  </div>
-                </div>
-              </li>
-
-
-              
                <li class="item-content item-input">
                 <div class="item-media">
                   <i class="icon f7-icons">chevron_down_circle</i>
                 </div>
                 <div class="item-inner">
-                  <div class="item-title item-label">Descripción</div>
+                  <div class="item-title item-label">Capacidad</div>
                   <div class="item-input-wrap">
-                    <input type="text" placeholder="Descripcion de Evento" name="descripcion">
+                    <input type="text" placeholder="Capacidad del Auditorio" name="capacidad">
                     <span class="input-clear-button"></span>
                   </div>
                 </div>
               </li>
+
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                  <i class="icon f7-icons">chevron_down_circle</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Renta</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Renta del Auditorio" name="renta">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
+
             </ul>
           </form>    
-          <a href="#" class="button" @click="guardar">Agregar evento</a>
+          <a href="#" class="button" @click="guardar">Agregar auditorio</a>
       </div>
     </div>
     </template>
@@ -129,32 +70,23 @@
       return {
         data: function () {
           return {
-           tipo_evento:[],
-           organizador:[],
-           auditorio:[],
-                    
+           //Funciones de listBox
     
           }
         },
         methods:{
               guardar:function(){
 
-                    var datos = app.form.convertToData('#agregarVentas');
+                    var datos = app.form.convertToData('#agregarAuditorios');
                     var formData = {
                      nombre:'',
-                     tipo_evento:'', 
-                     fecha: '',
-                     organizador:'',
-                     auditorio:'',
-                     descripcion:''
+                     capacidad:'', 
+                     renta: ''
                    }
-                   db1.collection("eventos").add({
+                   db1.collection("auditorio").add({
                         nombre: datos.nombre,
-                        tipo_evento: datos.tipo_evento,
-                        fecha:datos.fecha,
-                        organizador:datos.organizador,
-                        auditorio:datos.auditorio,
-                        descripcion:datos.descripcion
+                        capacidad: datos.capacidad,
+                        renta:datos.renta
                     })
                     .then(function(docRef) {
                         console.log("Document written with ID: ", docRef.id);
@@ -170,7 +102,7 @@
         on: {
           pageInit: function () {
 
-            var calendarDateFormat = app.calendar.create({
+           /* var calendarDateFormat = app.calendar.create({
                     inputEl: '#demo-calendar-date-format',
                     dateFormat: { weekday: 'long', month: 'long', day: '2-digit', year: 'numeric' },
                   });
@@ -224,7 +156,7 @@
                               auditorio:_auditorio
                            })
                         });
-                    });
+                    });*/
 
               
       

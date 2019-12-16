@@ -10,9 +10,9 @@
 
                   
                 </div>
-                <div class="title">Eventos</div>
+                <div class="title">Auditorios</div>
                 <div class="right">
-                  <a href="/agregarEventos/" class="link"><i class="icon f7-icons">plus</i></a>
+                  <a href="/agregarAuditorios/" class="link"><i class="icon f7-icons">plus</i></a>
                 </div>
             </div>
         </div>
@@ -22,29 +22,21 @@
               <table>
                 <thead>
                   <tr>
-                    <th class="label-cell">Nombre</th>
-                    <th class="numeric-cell">Tipo de evento </th>
-                    <th class="numeric-cell">Fecha</th>
-                    <th class="numeric-cell">Organizador</th>
-                    <th class="numeric-cell">Auditorio</th>
-                    <th class="numeric-cell">Descripción </th>
-
+                    <th class="numeric-cell">Nombre</th>
+                    <th class="numeric-cell">Capacidad</th>
+                    <th class="numeric-cell">Renta</th>
                     <th></th>
                     <th></th>
 
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each eventos}}
+                  {{#each auditorio}}
                   
                   <tr id="{{id}}">
-                    
-                    <td class="label-cell">{{nombre}}</td>
-                    <td class="numeric-cell">{{tipo_evento}}</td>
-                    <td class="numeric-cell">{{fecha}}</td>
-                    <td class="numeric-cell">{{organizador}}</td>
-                    <td class="numeric-cell">{{auditorio}}</td>
-                    <td class="numeric-cell">{{descripcion}}</td>
+                    <td class="numeric-cell">{{nombre}}</td>
+                    <td class="numeric-cell">{{capacidad}}</td>
+                    <td class="numeric-cell">{{renta}}</td>
                     <td class="numeric-cell"><a href="#" ><i class="icon f7-icons">pencil</i></a></td>
                     <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-red">trash_circle</i></a></td>
                   </tr>
@@ -63,7 +55,7 @@
     return {
         data: function () {
             return {
-             eventos:[], 
+             auditorio:[], 
            }
         },
         methods: {
@@ -77,9 +69,9 @@
         text: 'si',
         onClick:function(){
             //aqui la consulta de eliminar
-            app.dialog.preloader('Eliminando evento');
-            db1.collection("eventos").doc(id).delete().then(function() {
-                  console.log("Evento eliminado");
+            app.dialog.preloader('Eliminando auditorio');
+            db1.collection("auditorio").doc(id).delete().then(function() {
+                  console.log("Auditorio eliminado");
                   app.dialog.close();
 
                   $$("#"+id+"").remove();
@@ -99,27 +91,23 @@
         on: {
             pageInit: function () {
                 var self = this;
-                let _eventos = [];
+                let _auditorio = [];
                 db1
-                    .collection("eventos")
+                    .collection("auditorio")
                     .get()
                     .then(function (querySnapshot) {
                         querySnapshot.forEach(function (doc) {
                             // doc.data() is never undefined for query doc snapshots
                             console.log(doc.id, " => ", doc.data());
-                              _eventos.push({
+                              _auditorio.push({
                                 id:doc.id,
+                              capacidad:doc.data().capacidad,
                               nombre:doc.data().nombre,
-                              tipo_evento:doc.data().tipo_evento,
-                              fecha:doc.data().fecha,
-                              organizador:doc.data().organizador,
-                              auditorio:doc.data().auditorio,
-                              horario:doc.data().horario,
-                              descripcion:doc.data().descripcion
+                              renta:doc.data().renta
 
                             })
                             self.$setState({
-                              eventos:_eventos
+                              auditorio:_auditorio
                             })
                         });
                     });
