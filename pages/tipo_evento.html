@@ -10,9 +10,9 @@
 
                   
                 </div>
-                <div class="title">Eventos</div>
+                <div class="title">Tipo de Evento</div>
                 <div class="right">
-                  <a href="/agregarEventos/" class="link"><i class="icon f7-icons">plus</i></a>
+                  <a href="/tipo_evento/" class="link"><i class="icon f7-icons">plus</i></a>
                 </div>
             </div>
         </div>
@@ -23,11 +23,6 @@
                 <thead>
                   <tr>
                     <th class="label-cell">Nombre</th>
-                    <th class="numeric-cell">Tipo de evento </th>
-                    <th class="numeric-cell">Fecha</th>
-                    <th class="numeric-cell">Organizador</th>
-                    <th class="numeric-cell">Auditorio</th>
-                    <th class="numeric-cell">Descripción </th>
 
                     <th></th>
                     <th></th>
@@ -35,38 +30,78 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each eventos}}
+                  {{#each tipo_evento}}
                   
                   <tr id="{{id}}">
                     
                     <td class="label-cell">{{nombre}}</td>
-                    <td class="numeric-cell">{{tipo_evento}}</td>
-                    <td class="numeric-cell">{{fecha}}</td>
-                    <td class="numeric-cell">{{organizador}}</td>
-                    <td class="numeric-cell">{{auditorio}}</td>
-                    <td class="numeric-cell">{{descripcion}}</td>
                     <td class="numeric-cell"><a href="#" ><i class="icon f7-icons">pencil</i></a></td>
                     <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-red">trash_circle</i></a></td>
                   </tr>
                   
                 
                   {{/each}}
-                  
+     
                 </tbody>
               </table>
               
             </div>
+               <!---->
+        <div class="block block-title-medium">Datos del Tipo de Evento</div>
+          <form class="list no-hairlines-md" id="agregarTipos_Eventos">
+            <ul>
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">bold_italic_underline</i> <!--Nombre de Ic-->
+                </div>                
+                <div class="item-inner">
+                  <div class="item-title item-label">Nombre</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Nombre del Tipo de Evento" name="nombre">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </form>    
+          <a href="#" class="button" @click="guardar">Agregar Tipo de Evento</a>
+        
+                  <!---->
+
         </div>
     </div>
 </template>
+
+<!--AGREGAR UN NUEVO REGISTRO DE TIPO DE EVENTO-->
+
+          
+<!--Fin del TEMPLATE-->
 <script>
     return {
         data: function () {
             return {
-             eventos:[], 
            }
         },
         methods: {
+           guardar:function(){
+
+                    var datos = app.form.convertToData('#agregarTipos_Eventos');
+                    var formData = {
+                     nombre:''
+                   }
+                   db1.collection("tipo_evento").add({
+                        nombre: datos.nombre
+                    })
+                    .then(function(docRef) {
+                        console.log("Document written with ID: ", docRef.id);
+                        app.dialog.alert("","Guardado con exito");
+                    })
+                    .catch(function(error) {
+                        console.error("Error: ", error);
+                    });
+
+                    },
           eliminar:function(id){
 
           app.dialog.create({
@@ -77,9 +112,9 @@
         text: 'si',
         onClick:function(){
             //aqui la consulta de eliminar
-            app.dialog.preloader('Eliminando evento');
-            db1.collection("eventos").doc(id).delete().then(function() {
-                  console.log("Evento eliminado");
+            app.dialog.preloader('Eliminando Tipo de evento');
+            db1.collection("tipo_evento").doc(id).delete().then(function() {
+                  console.log("Tipo de Evento eliminado");
                   app.dialog.close();
 
                   $$("#"+id+"").remove();
@@ -99,27 +134,19 @@
         on: {
             pageInit: function () {
                 var self = this;
-                let _eventos = [];
+                let _tipo_evento = [];
                 db1
-                    .collection("eventos")
+                    .collection("tipo_evento")
                     .get()
                     .then(function (querySnapshot) {
                         querySnapshot.forEach(function (doc) {
                             // doc.data() is never undefined for query doc snapshots
                             console.log(doc.id, " => ", doc.data());
-                              _eventos.push({
-                                id:doc.id,
-                              nombre:doc.data().nombre,
-                              tipo_evento:doc.data().tipo_evento,
-                              fecha:doc.data().fecha,
-                              organizador:doc.data().organizador,
-                              auditorio:doc.data().auditorio,
-                              horario:doc.data().horario,
-                              descripcion:doc.data().descripcion
-
+                              _tipo_evento.push({
+                                id:doc.id
                             })
                             self.$setState({
-                              eventos:_eventos
+                              tipo_evento:_tipo_evento
                             })
                         });
                     });
