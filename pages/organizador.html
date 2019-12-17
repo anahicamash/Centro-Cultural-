@@ -10,15 +10,9 @@
 
                   
                 </div>
-<<<<<<< HEAD
-                <div class="title">Tipo de Evento</div>
-                <div class="right">
-                  <a href="/tipo_evento/" class="link"><i class="icon f7-icons">plus</i></a>
-=======
                 <div class="title">Organizadores</div>
                 <div class="right">
                   <a href="#" class="link"><i class="icon f7-icons">plus</i></a>
->>>>>>> b9fa17df118523ae636885ad92265e5fc1b7ebe9
                 </div>
             </div>
         </div>
@@ -29,129 +23,92 @@
                 <thead>
                   <tr>
                     <th class="label-cell">Nombre</th>
-<<<<<<< HEAD
-
-=======
-                   
+                    <th class="label-cell">Contacto</th>
                     
->>>>>>> b9fa17df118523ae636885ad92265e5fc1b7ebe9
                     <th></th>
                     <th></th>
 
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each tipo_evento}}
+                  {{#each organizador}}
                   
                   <tr id="{{id}}">
                     <td class="label-cell">{{nombre}}</td>
-<<<<<<< HEAD
-=======
-                   
+                    <td class="label-cell">{{contacto}}</td>
                     
->>>>>>> b9fa17df118523ae636885ad92265e5fc1b7ebe9
                     <td class="numeric-cell"><a href="#" ><i class="icon f7-icons">pencil</i></a></td>
                     <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-red">trash_circle</i></a></td>
                   </tr>
                   
                 
                   {{/each}}
-     
+                  
                 </tbody>
               </table>
               
             </div>
-<<<<<<< HEAD
-               <!---->
-        <div class="block block-title-medium">Datos del Tipo de Evento</div>
-          <form class="list no-hairlines-md" id="agregarTipos_Eventos">
-            <ul>
-              <li class="item-content item-input">
-                <div class="item-media">
-                   <i class="icon f7-icons">bold_italic_underline</i> <!--Nombre de Ic-->
-=======
 
 
-            <div class="block block-title-medium">Datos del Tipo de evento</div>
-          <form class="list no-hairlines-md" id="agregarTipo_evento">
+            <div class="block block-title-medium">Datos del Organizador</div>
+          <form class="list no-hairlines-md" id="agregarOrganizador">
             <ul>
               <li class="item-content item-input">
                 <div class="item-media">
                    <i class="icon f7-icons">bold_italic_underline</i>
->>>>>>> b9fa17df118523ae636885ad92265e5fc1b7ebe9
                 </div>                
                 <div class="item-inner">
                   <div class="item-title item-label">Nombre</div>
                   <div class="item-input-wrap">
-<<<<<<< HEAD
-                    <input type="text" placeholder="Nombre del Tipo de Evento" name="nombre">
-=======
                     <input type="text" placeholder="Nombre del  Evento" name="nombre">
->>>>>>> b9fa17df118523ae636885ad92265e5fc1b7ebe9
                     <span class="input-clear-button"></span>
                   </div>
                 </div>
               </li>
 
-<<<<<<< HEAD
+
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                  <i class="icon f7-icons">Contacto</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Contacto</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Numero de telefono" name="contacto">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
             </ul>
           </form>    
-          <a href="#" class="button" @click="guardar">Agregar Tipo de Evento</a>
-        
-                  <!---->
-=======
+          <a href="#" class="button" @click="guardar">Agregar organizador</a>
 
-
-              
-            </ul>
-          </form>    
-          <a href="#" class="button" @click="guardar">Agregar tipo de evento</a>
-
->>>>>>> b9fa17df118523ae636885ad92265e5fc1b7ebe9
 
         </div>
     </div>
 </template>
-
-<!--AGREGAR UN NUEVO REGISTRO DE TIPO DE EVENTO-->
-
-          
-<!--Fin del TEMPLATE-->
 <script>
     return {
         data: function () {
             return {
-<<<<<<< HEAD
-           }
-        },
-        methods: {
-           guardar:function(){
-
-                    var datos = app.form.convertToData('#agregarTipos_Eventos');
-                    var formData = {
-                     nombre:''
-                   }
-                   db1.collection("tipo_evento").add({
-                        nombre: datos.nombre
-=======
-             tipo_evento:[], 
+             organizador:[], 
            }
         },
         methods: {
 
            guardar:function(){
 
-                    var datos = app.form.convertToData('#agregarTipo_evento');
+                    var datos = app.form.convertToData('#agregarOrganizador');
                     var formData = {
-                     nombre:''
-                     
+                     nombre:'',
+                     contacto:''
                      
                    }
-                   db1.collection("tipo_evento").add({
-                        nombre: datos.nombre
+                   db1.collection("organizador").add({
+                        nombre: datos.nombre,
+                        contacto: datos.contacto
                        
-                       
->>>>>>> b9fa17df118523ae636885ad92265e5fc1b7ebe9
                     })
                     .then(function(docRef) {
                         console.log("Document written with ID: ", docRef.id);
@@ -161,35 +118,6 @@
                         console.error("Error: ", error);
                     });
 
-<<<<<<< HEAD
-                    },
-          eliminar:function(id){
-
-          app.dialog.create({
-    title: 'Eliminar',
-    text: '¿Desea Eliminar el registro?',
-    buttons: [
-      {
-        text: 'si',
-        onClick:function(){
-            //aqui la consulta de eliminar
-            app.dialog.preloader('Eliminando Tipo de evento');
-            db1.collection("tipo_evento").doc(id).delete().then(function() {
-                  console.log("Tipo de Evento eliminado");
-                  app.dialog.close();
-
-                  $$("#"+id+"").remove();
-              }).catch(function(error) {
-                  console.error("Error removing document: ", error);
-              });
-        }
-      },
-      {
-        text: 'no',
-      },
-    ],
-  }).open(); 
-=======
           },
 
 
@@ -206,9 +134,9 @@
                     text: 'si',
                     onClick:function(){
                         //aqui la consulta de eliminar
-                        app.dialog.preloader('Eliminando tipo de evento');
-                        db1.collection("tipo_evento").doc(id).delete().then(function() {
-                              console.log("Tipo de evento eliminado");
+                        app.dialog.preloader('Eliminando organizador');
+                        db1.collection("organizador").doc(id).delete().then(function() {
+                              console.log("Organizador eliminado");
                               app.dialog.close();
 
                               $$("#"+id+"").remove();
@@ -222,34 +150,29 @@
                   },
                 ],
               }).open(); 
->>>>>>> b9fa17df118523ae636885ad92265e5fc1b7ebe9
             
         }
         },
         on: {
             pageInit: function () {
                 var self = this;
-                let _tipo_evento = [];
+                let _organizador = [];
                 db1
-                    .collection("tipo_evento")
+                    .collection("organizador")
                     .get()
                     .then(function (querySnapshot) {
                         querySnapshot.forEach(function (doc) {
                             // doc.data() is never undefined for query doc snapshots
                             console.log(doc.id, " => ", doc.data());
-                              _tipo_evento.push({
-<<<<<<< HEAD
-                                id:doc.id
-=======
+                              _organizador.push({
                                 id:doc.id,
-                              
+                              contacto:doc.data().contacto,
                               nombre:doc.data().nombre
                               
 
->>>>>>> b9fa17df118523ae636885ad92265e5fc1b7ebe9
                             })
                             self.$setState({
-                              tipo_evento:_tipo_evento
+                              organizador:_organizador
                             })
                         });
                     });

@@ -28,6 +28,9 @@
                     <th class="numeric-cell">Organizador</th>
                     <th class="numeric-cell">Auditorio</th>
                     <th class="numeric-cell">Descripción </th>
+                    <th class="numeric-cell">Boletos VIP </th>
+                    <th class="numeric-cell">Boletos General </th>
+                    <th class="numeric-cell">Boletos Estudiante </th>
 
                     <th></th>
                     <th></th>
@@ -45,6 +48,9 @@
                     <td class="numeric-cell">{{organizador}}</td>
                     <td class="numeric-cell">{{auditorio}}</td>
                     <td class="numeric-cell">{{descripcion}}</td>
+                    <td class="numeric-cell">{{vip}}</td>
+                    <td class="numeric-cell">{{general}}</td>
+                    <td class="numeric-cell">{{estudiante}}</td>
                     <td class="numeric-cell"><a href="#" ><i class="icon f7-icons">pencil</i></a></td>
                     <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-red">trash_circle</i></a></td>
                   </tr>
@@ -56,6 +62,8 @@
               </table>
               
             </div>
+
+
         </div>
     </div>
 </template>
@@ -115,8 +123,10 @@
                               organizador:doc.data().organizador,
                               auditorio:doc.data().auditorio,
                               horario:doc.data().horario,
-                              descripcion:doc.data().descripcion
-
+                              descripcion:doc.data().descripcion,
+                              vip:doc.data().vip,
+                              general:doc.data().general,
+                              estudiante:doc.data().estudiante
                             })
                             self.$setState({
                               eventos:_eventos

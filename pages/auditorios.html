@@ -22,7 +22,7 @@
               <table>
                 <thead>
                   <tr>
-                    <th class="numeric-cell">Nombre</th>
+                    <th class="label-cell">Nombre</th>
                     <th class="numeric-cell">Capacidad</th>
                     <th class="numeric-cell">Renta</th>
                     <th></th>
@@ -34,7 +34,7 @@
                   {{#each auditorio}}
                   
                   <tr id="{{id}}">
-                    <td class="numeric-cell">{{nombre}}</td>
+                    <td class="label-cell">{{nombre}}</td>
                     <td class="numeric-cell">{{capacidad}}</td>
                     <td class="numeric-cell">{{renta}}</td>
                     <td class="numeric-cell"><a href="#" ><i class="icon f7-icons">pencil</i></a></td>
@@ -61,30 +61,30 @@
         methods: {
           eliminar:function(id){
 
-          app.dialog.create({
-    title: 'Eliminar',
-    text: '¿Desea Eliminar el registro?',
-    buttons: [
-      {
-        text: 'si',
-        onClick:function(){
-            //aqui la consulta de eliminar
-            app.dialog.preloader('Eliminando auditorio');
-            db1.collection("auditorio").doc(id).delete().then(function() {
-                  console.log("Auditorio eliminado");
-                  app.dialog.close();
+                        app.dialog.create({
+                        title: 'Eliminar',
+                        text: '¿Desea Eliminar el registro?',
+                        buttons: [
+                          {
+                            text: 'si',
+                            onClick:function(){
+                                //aqui la consulta de eliminar
+                                app.dialog.preloader('Eliminando auditorio');
+                                db1.collection("auditorio").doc(id).delete().then(function() {
+                                      console.log("Auditorio eliminado");
+                                      app.dialog.close();
 
-                  $$("#"+id+"").remove();
-              }).catch(function(error) {
-                  console.error("Error removing document: ", error);
-              });
-        }
-      },
-      {
-        text: 'no',
-      },
-    ],
-  }).open(); 
+                                      $$("#"+id+"").remove();
+                                  }).catch(function(error) {
+                                      console.error("Error removing document: ", error);
+                                  });
+                            }
+                          },
+                          {
+                            text: 'no',
+                          },
+                        ],
+                      }).open(); 
             
         }
         },

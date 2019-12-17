@@ -14,7 +14,7 @@
       </div>
       <div class="page-content">
         <div class="block block-title-medium">Datos del Evento</div>
-          <form class="list no-hairlines-md" id="agregarVentas">
+          <form class="list no-hairlines-md" id="agregarEventos">
             <ul>
               <li class="item-content item-input">
                 <div class="item-media">
@@ -70,7 +70,7 @@
 
               <li class="item-content item-input">
                 <div class="item-media">
-                   <i class="icon f7-icons">person_3</i>
+                   <i class="icon f7-icons">person</i>
                 </div>
                 <div class="item-inner">
                   <div class="item-title item-label">Organizador</div>
@@ -118,6 +118,51 @@
                   </div>
                 </div>
               </li>
+
+
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                  <i class="icon f7-icons">person_3</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Boletos VIP</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Boletos VIP vendidos" name="vip">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
+
+
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                  <i class="icon f7-icons">person_3</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Boletos General</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Boletos Generales vendidos" name="general">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
+
+
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                  <i class="icon f7-icons">person_3</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Boletos Estudiante</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Boletos de Estudiante vendidos" name="estudiante">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
             </ul>
           </form>    
           <a href="#" class="button" @click="guardar">Agregar evento</a>
@@ -139,14 +184,17 @@
         methods:{
               guardar:function(){
 
-                    var datos = app.form.convertToData('#agregarVentas');
+                    var datos = app.form.convertToData('#agregarEventos');
                     var formData = {
                      nombre:'',
                      tipo_evento:'', 
                      fecha: '',
                      organizador:'',
                      auditorio:'',
-                     descripcion:''
+                     descripcion:'',
+                     vip:'',
+                     estudiante:'',
+                     general:''
                    }
                    db1.collection("eventos").add({
                         nombre: datos.nombre,
@@ -154,7 +202,10 @@
                         fecha:datos.fecha,
                         organizador:datos.organizador,
                         auditorio:datos.auditorio,
-                        descripcion:datos.descripcion
+                        descripcion:datos.descripcion,
+                        vip:datos.vip,
+                        general:datos.general,
+                        estudiante:datos.estudiante
                     })
                     .then(function(docRef) {
                         console.log("Document written with ID: ", docRef.id);
