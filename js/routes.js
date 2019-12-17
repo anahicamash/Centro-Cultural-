@@ -53,6 +53,13 @@ routes = [
       transition: 'f7-parallax',
     },
   },
+   {
+    path: '/tipo_eventos/',
+    componentUrl: './pages/tipo_eventos.html',
+    options: {
+      transition: 'f7-parallax',
+    },
+  },
   {
     path: '/tipo_boleto/',
     componentUrl: './pages/tipo_boleto.html',
