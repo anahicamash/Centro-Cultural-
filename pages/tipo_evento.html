@@ -8,11 +8,12 @@
                     <i class="icon icon-back"></i>
                   </a>
 
-                  
                 </div>
-                <div class="title">Tipos de eventos</div>
+
+                <div class="title">Tipo de Evento</div>
+
                 <div class="right">
-                  <a href="#" class="link"><i class="icon f7-icons">plus</i></a>
+                  <a href="/tipo_evento/" class="link"><i class="icon f7-icons">plus</i></a>
                 </div>
             </div>
         </div>
@@ -23,8 +24,7 @@
                 <thead>
                   <tr>
                     <th class="label-cell">Nombre</th>
-                   
-                    
+
                     <th></th>
                     <th></th>
 
@@ -35,15 +35,13 @@
                   
                   <tr id="{{id}}">
                     <td class="label-cell">{{nombre}}</td>
-                   
-                    
                     <td class="numeric-cell"><a href="#" ><i class="icon f7-icons">pencil</i></a></td>
                     <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-red">trash_circle</i></a></td>
                   </tr>
                   
                 
                   {{/each}}
-                  
+     
                 </tbody>
               </table>
               
@@ -60,23 +58,24 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Nombre</div>
                   <div class="item-input-wrap">
+
                     <input type="text" placeholder="Nombre del  Evento" name="nombre">
                     <span class="input-clear-button"></span>
                   </div>
                 </div>
               </li>
-
-
-
-              
+       
             </ul>
           </form>    
           <a href="#" class="button" @click="guardar">Agregar tipo de evento</a>
-
-
         </div>
     </div>
 </template>
+
+<!--AGREGAR UN NUEVO REGISTRO DE TIPO DE EVENTO-->
+
+          
+<!--Fin del TEMPLATE-->
 <script>
     return {
         data: function () {
@@ -96,8 +95,6 @@
                    }
                    db1.collection("tipo_evento").add({
                         nombre: datos.nombre
-                       
-                       
                     })
                     .then(function(docRef) {
                         console.log("Document written with ID: ", docRef.id);
@@ -106,7 +103,33 @@
                     .catch(function(error) {
                         console.error("Error: ", error);
                     });
+                    },
+          eliminar:function(id){
 
+          app.dialog.create({
+    title: 'Eliminar',
+    text: '¿Desea Eliminar el registro?',
+    buttons: [
+      {
+        text: 'si',
+        onClick:function(){
+            //aqui la consulta de eliminar
+            app.dialog.preloader('Eliminando Tipo de evento');
+            db1.collection("tipo_evento").doc(id).delete().then(function() {
+                  console.log("Tipo de Evento eliminado");
+                  app.dialog.close();
+
+                  $$("#"+id+"").remove();
+              }).catch(function(error) {
+                  console.error("Error removing document: ", error);
+              });
+        }
+      },
+      {
+        text: 'no',
+      },
+    ],
+  }).open(); 
           },
 
 
@@ -154,11 +177,10 @@
                             // doc.data() is never undefined for query doc snapshots
                             console.log(doc.id, " => ", doc.data());
                               _tipo_evento.push({
+
                                 id:doc.id,
                               
                               nombre:doc.data().nombre
-                              
-
                             })
                             self.$setState({
                               tipo_evento:_tipo_evento
