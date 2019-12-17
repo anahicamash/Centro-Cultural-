@@ -60,6 +60,13 @@ routes = [
       transition: 'f7-parallax',
     },
   },
+  {
+    path: '/organizador/',
+    componentUrl: './pages/organizador.html',
+    options: {
+      transition: 'f7-parallax',
+    },
+  },
   
   // Default route, match to all pages (e.g. 404 page)
   {

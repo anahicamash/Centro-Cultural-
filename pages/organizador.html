@@ -23,7 +23,7 @@
                 <thead>
                   <tr>
                     <th class="label-cell">Nombre</th>
-                   
+                    <th class="label-cell">Contacto</th>
                     
                     <th></th>
                     <th></th>
@@ -31,11 +31,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each tipo_evento}}
+                  {{#each organizador}}
                   
                   <tr id="{{id}}">
                     <td class="label-cell">{{nombre}}</td>
-                   
+                    <td class="label-cell">{{contacto}}</td>
                     
                     <td class="numeric-cell"><a href="#" ><i class="icon f7-icons">pencil</i></a></td>
                     <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-red">trash_circle</i></a></td>
@@ -50,8 +50,8 @@
             </div>
 
 
-            <div class="block block-title-medium">Datos del Tipo de evento</div>
-          <form class="list no-hairlines-md" id="agregarTipo_evento">
+            <div class="block block-title-medium">Datos del Organizador</div>
+          <form class="list no-hairlines-md" id="agregarOrganizador">
             <ul>
               <li class="item-content item-input">
                 <div class="item-media">
@@ -68,10 +68,21 @@
 
 
 
-              
+              <li class="item-content item-input">
+                <div class="item-media">
+                  <i class="icon f7-icons">Contacto</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title item-label">Contacto</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Numero de telefono" name="contacto">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
             </ul>
           </form>    
-          <a href="#" class="button" @click="guardar">Agregar tipo de evento</a>
+          <a href="#" class="button" @click="guardar">Agregar organizador</a>
 
 
         </div>
@@ -81,22 +92,22 @@
     return {
         data: function () {
             return {
-             tipo_evento:[], 
+             organizador:[], 
            }
         },
         methods: {
 
            guardar:function(){
 
-                    var datos = app.form.convertToData('#agregarTipo_evento');
+                    var datos = app.form.convertToData('#agregarOrganizador');
                     var formData = {
-                     nombre:''
-                     
+                     nombre:'',
+                     contacto:''
                      
                    }
-                   db1.collection("tipo_evento").add({
-                        nombre: datos.nombre
-                       
+                   db1.collection("organizador").add({
+                        nombre: datos.nombre,
+                        contacto: datos.contacto
                        
                     })
                     .then(function(docRef) {
@@ -123,9 +134,9 @@
                     text: 'si',
                     onClick:function(){
                         //aqui la consulta de eliminar
-                        app.dialog.preloader('Eliminando tipo de evento');
-                        db1.collection("tipo_evento").doc(id).delete().then(function() {
-                              console.log("Tipo de evento eliminado");
+                        app.dialog.preloader('Eliminando organizador');
+                        db1.collection("organizador").doc(id).delete().then(function() {
+                              console.log("Organizador eliminado");
                               app.dialog.close();
 
                               $$("#"+id+"").remove();
@@ -145,23 +156,23 @@
         on: {
             pageInit: function () {
                 var self = this;
-                let _tipo_evento = [];
+                let _organizador = [];
                 db1
-                    .collection("tipo_evento")
+                    .collection("organizador")
                     .get()
                     .then(function (querySnapshot) {
                         querySnapshot.forEach(function (doc) {
                             // doc.data() is never undefined for query doc snapshots
                             console.log(doc.id, " => ", doc.data());
-                              _tipo_evento.push({
+                              _organizador.push({
                                 id:doc.id,
-                              
+                              contacto:doc.data().contacto,
                               nombre:doc.data().nombre
                               
 
                             })
                             self.$setState({
-                              tipo_evento:_tipo_evento
+                              organizador:_organizador
                             })
                         });
                     });
