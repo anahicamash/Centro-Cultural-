@@ -1,0 +1,88 @@
+<template>
+    <div class="page">
+      <div class="page-content">
+
+       
+        <div class="view">
+          <div class="page">
+            <div class="page-content login-screen-content">
+          <div class="login-screen-title">Tlaqná</div>
+          <form id="form-autenticacion">
+            <div class="list">
+              <ul>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Usuario</div>
+                    <div class="item-input-wrap">
+                      <input type="text" name="username" placeholder="Usuario">
+                    </div>
+                  </div>
+                </li>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Contraseña</div>
+                    <div class="item-input-wrap">
+                      <input type="password" name="password" placeholder="Contraseña">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="list">
+              <ul>
+                <li><a class="item-link list-button" @click="inicio">Entrar</a></li>
+              </ul>
+              <div class="block-footer">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p><a class="link login-screen-close" href="/registro/">Close Login Screen</a></p>
+              </div>
+            </div>
+          </form>
+        </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+    </template>
+    
+    <script>
+      return {
+        data: function () {
+          return {
+    
+          }
+        },
+        methods:{
+
+ 
+
+ 
+
+        inicio: function()
+        {
+          var self=this;
+          app.dialog.preloader("Iniciando sesión");
+          var datos = app.form.convertToData('#form-autenticacion');
+          firebase.auth(conexion1).signInWithEmailAndPassword(datos.username, datos.password).then(function(){
+            mainView.router.navigate('/index/');
+            app.dialog.close();
+             }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+              });
+            
+        }  
+        },
+        on: {
+          pageInit: function () {
+    
+    
+    
+    
+          },
+        },
+      };
+    </script>
