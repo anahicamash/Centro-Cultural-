@@ -1,0 +1,97 @@
+<template>
+    <div class="page">
+      <div class="navbar">
+        <div class="navbar-bg"></div>
+        <div class="navbar-inner sliding">
+          
+          <div class="title" >Comercializadora</div>
+    
+        </div>
+      </div>
+      <div class="page-content">
+
+       
+        <div class="view">
+          <div class="page">
+            <div class="page-content login-screen-content">
+              <div class="login-screen-title">CA+</div>
+              <form id="login" class="ignore-store-data">
+                <div class="list">
+                  <ul>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Usuario</div>
+                        <div class="item-input-wrap">
+                          <input type="text" name="username" placeholder="Tu usuario" >
+                        </div>
+                      </div>
+                    </li>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-title item-label">Contraseña</div>
+                        <div class="item-input-wrap">
+                          <input type="password" name="password" placeholder="Tu contraseña" >
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="list">
+                  <ul>
+                    <li><a class="item-link list-button" @click="inicio">Entrar</a></li>
+                  </ul>
+                   <div class="block-footer">
+                    <p></p>
+                    <p><a class="link login-screen-close" href="/registro/">¿No tienes una cuenta?</a></p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+    </template>
+    
+    <script>
+      return {
+        data: function () {
+          return {
+    
+          }
+        },
+        methods:{
+
+ 
+
+ 
+
+        inicio: function()
+        {
+          var self=this;
+          app.dialog.preloader("Iniciando sesión");
+          var datos = app.form.convertToData('#login');
+          firebase.auth(conexion1).signInWithEmailAndPassword(datos.username, datos.password).then(function(){
+            mainView.router.navigate('/inicio/');
+            app.dialog.close();
+             }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+              });
+            
+        }  
+        },
+        on: {
+          pageInit: function () {
+    
+    
+    
+    
+          },
+        },
+      };
+    </script>
+    

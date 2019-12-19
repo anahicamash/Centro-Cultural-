@@ -43,7 +43,7 @@
                   <div class="item-input-wrap input-dropdown-wrap">
                     <select name="tipo_evento">
                        {{#each tipo_evento}}
-                      <option value={{id}}>{{id}}</option>
+                      <option value={{id}}>{{nombre}}</option>
                       {{/each}}
               
                     </select>
@@ -238,7 +238,8 @@
                             // doc.data() is never undefined for query doc snapshots
                             console.log(doc.id, " => ", doc.data());
                             _tipo_evento.push({
-                              id:doc.id
+                              id:doc.id,
+                              nombre:doc.data().nombre
                              })
                             self.$setState({
                               tipo_evento:_tipo_evento
