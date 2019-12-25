@@ -1,12 +1,12 @@
 var conexion1=  firebase.initializeApp({
-	apiKey: "AIzaSyB3XySPKHawKAKfh8uwJX2VjXIY11Q7_rM",
-    authDomain: "auditorio-b45c5.firebaseapp.com",
-    databaseURL: "https://auditorio-b45c5.firebaseio.com",
-    projectId: "auditorio-b45c5",
-    storageBucket: "auditorio-b45c5.appspot.com",
-    messagingSenderId: "42382210282",
-    appId: "1:42382210282:web:328e89fdeddb3693049393",
-    measurementId: "G-HMVHFXKVRS"
+	 apiKey: "AIzaSyAoaKeKtwTKZj0Eempe1mDqls0nIWZg9zQ",
+    authDomain: "northongotten.firebaseapp.com",
+    databaseURL: "https://northongotten.firebaseio.com",
+    projectId: "northongotten",
+    storageBucket: "northongotten.appspot.com",
+    messagingSenderId: "1025060671680",
+    appId: "1:1025060671680:web:30f898e88de71d5d3fdd25",
+    measurementId: "G-NBZVG5TQJY"
 },'database1');
 
 
